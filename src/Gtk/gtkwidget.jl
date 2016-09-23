@@ -103,8 +103,10 @@ Requires.@require Immerse begin
     end
 
     function Base.push!(obj::CairoGraphic, p::Gadfly.Plot)
-        if obj.obj != nothing
-            push!(obj.obj, p)
+        canvas = obj.obj
+        if canvas != nothing
+            canvas.back = Gtk.cairo_surface_for(canvas)
+            push!(canvas, p)
         end
     end
 end
